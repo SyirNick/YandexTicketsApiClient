@@ -312,7 +312,7 @@ namespace YandexTicketsApiWrapper
         /// При наличии ответа от API Яндекс Билеты, вернёт GetCartDeliveriesListResponse, содержащий статус ответа и список вариантов доставки, если запрос выполнен успешно.<br></br>
         /// При внутренней ошибке клиента выкинет YandexTicketsException.
         /// </returns>
-        public async Task<GetCartDeliveriesListResponse> GetCartDeliveriesListResponse(GetCartDeliveriesListRequest request) => await
+        public async Task<GetCartDeliveriesListResponse> GetCartDeliveriesListAsync(GetCartDeliveriesListRequest request) => await
             request.GetBaseRequest()
                 .AddQueryParameter("action", "cart.deliveries")
                 .AddQueryParameter("uid", request.SessionId)
