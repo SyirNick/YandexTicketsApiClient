@@ -46,7 +46,7 @@ GetVenuesListAsync - возвращает список мест проведен
 
 BookTicketAsync - предварительно бронирует билет. Билет находится в корзине 15 минут, после чего бронь снимается;
 
-GetCartDeliveriesListResponse - возвращает список вариантов доставки;
+GetCartDeliveriesListAsync - возвращает список вариантов доставки;
 
 GetBookedTicketsListAsync - возвращает список предварительно забронированных билетов;
 
