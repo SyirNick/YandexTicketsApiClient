@@ -1,5 +1,5 @@
-﻿global using Newtonsoft.Json;
-global using RestSharp;
+﻿global using RestSharp;
+global using Newtonsoft.Json;
 global using YandexTicketsApiWrapper.Contracts;
 
 namespace YandexTicketsApiWrapper
@@ -8,7 +8,7 @@ namespace YandexTicketsApiWrapper
     /// Обёртка для API Яндекс Билетов с ленивым синглтоном. Инициализация:<br></br>
     /// <c>YandexTicketsApiClient client = YandexTicketsApiClient.Instance;</c><br></br><br></br>
     /// Для смены хоста измените свойство BaseUrl на желаемое.<br></br>
-    /// Список методов и их описание доступно здесь: <a href=""></a>
+    /// Список методов и их описание доступно здесь: <a href="https://github.com/SyirNick/YandexTicketsApiClient">https://github.com/SyirNick/YandexTicketsApiClient</a>
     /// </summary>
     public sealed class YandexTicketsApiClient
     {
@@ -32,7 +32,7 @@ namespace YandexTicketsApiWrapper
         /// По умолчанию, хост равен <a href="https://api.tickets.yandex.net/api/agent">https://api.tickets.yandex.net/api/agent</a>.<br><br></br></br>
         /// Источник: <a href="https://yandex.ru/dev/afisha/tickets/doc/concepts/access.html">https://yandex.ru/dev/afisha/tickets/doc/concepts/access.html</a>.
         /// </summary>
-        public static Uri BaseUrl { get; set; } = new Uri("https://api.tickets.yandex.net/api/agent");
+        public static Uri BaseUrl { get; set; } = new Uri("https://api.tickets.yandex.net/api/agent/");
 
         #region Информационные запросы
 
@@ -47,8 +47,8 @@ namespace YandexTicketsApiWrapper
 
         public async Task<GetActivitiesListResponse> GetActivitiesListAsync(GetActivitiesListRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "activity.list")
-                .AddParameter("city_id", request.CityId)
+                .AddQueryParameter("action", "activity.list", false)
+                .AddQueryParameter("city_id", request.CityId, false)
                 .AddOptionalParameter("limit", request.Limit)
                 .AddOptionalParameter("offset", request.Offset)
             .ProceedAsync<GetActivitiesListResponse>(BaseUrl);
@@ -63,7 +63,7 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetCitiesListResponse> GetCitiesListAsync(GetCitiesListRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "city.list")
+                .AddQueryParameter("action", "city.list")
                 .AddOptionalParameter("updated_after", request.GetDateTimeZone())
             .ProceedAsync<GetCitiesListResponse>(BaseUrl);
 
@@ -77,9 +77,9 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetEventDetailsResponse> GetEventDetailsAsync(GetEventDetailsRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "event.detail")
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("event_id", request.EventId)
+                .AddQueryParameter("action", "event.detail")
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("event_id", request.EventId)
                 .AddOptionalParameter("organizer", request.IsOrganizerNeeded)
                 .AddOptionalParameter("html", request.IsHtmlNeeded)
                 .AddOptionalParameter("discount", request.IsDiscountNeeded)
@@ -95,8 +95,8 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetEventsListResponse> GetEventsListAsync(GetEventsListRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "event.list")
-                .AddParameter("city_id", request.CityId)
+                .AddQueryParameter("action", "event.list")
+                .AddQueryParameter("city_id", request.CityId)
                 .AddOptionalParameter("limit", request.Limit)
                 .AddOptionalParameter("offset", request.Offset)
                 .AddOptionalParameter("venue_id", request.VenueId)
@@ -118,9 +118,9 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetSectorsWithTicketsListResponse> GetSectorsWithTicketsListAsync(GetSectorsWithTicketsListRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "event.sector.list")
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("event_id", request.EventId)
+                .AddQueryParameter("action", "event.sector.list")
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("event_id", request.EventId)
                 .AddOptionalParameter("show_all", request.ShowAll)
             .ProceedAsync<GetSectorsWithTicketsListResponse>(BaseUrl);
 
@@ -134,9 +134,9 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetGenresListResponse> GetGenresListAsync(GetGenresListRequest request) => await
             GetRestPostRequest()
-                .AddParameter("action", "genre.list")
-                .AddParameter("auth", request.Auth)
-                .AddParameter("city_id", request.CityId)
+                .AddQueryParameter("action", "genre.list")
+                .AddQueryParameter("auth", request.Auth)
+                .AddQueryParameter("city_id", request.CityId)
             .ProceedAsync<GetGenresListResponse>(BaseUrl);
 
         /// <summary>
@@ -149,9 +149,9 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetOrderInfoResponse> GetOrderInfoAsync(GetOrderInfoRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "order.info")
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("id", request.OrderId)
+                .AddQueryParameter("action", "order.info")
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("id", request.OrderId)
             .ProceedAsync<GetOrderInfoResponse>(BaseUrl);
 
         /// <summary>
@@ -164,8 +164,8 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetOrdersListResponse> GetOrdersListAsync(GetOrdersListRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "order.list")
-                .AddParameter("city_id", request.CityId)
+                .AddQueryParameter("action", "order.list")
+                .AddQueryParameter("city_id", request.CityId)
                 .AddOptionalParameter("status", (int?)request.OrderStatus)
                 .AddOptionalParameter("start_date", request.StartDateTime.GetDay())
                 .AddOptionalParameter("end_date", request.EndDateTime.GetDay())
@@ -184,8 +184,8 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetSoldTicketsListResponse> GetSoldTicketsListAsync(GetSoldTicketsListRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "order.ticket.list")
-                .AddParameter("city_id", request.CityId)
+                .AddQueryParameter("action", "order.ticket.list")
+                .AddQueryParameter("city_id", request.CityId)
                 .AddOptionalParameter("event_id", request.EventId)
                 .AddOptionalParameter("start_date", request.StartDateTime.GetDay())
                 .AddOptionalParameter("end_date", request.EndDateTime.GetDay())
@@ -201,8 +201,8 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetSectorGroupsListResponse> GetSectorGroupsListAsync(GetSectorGroupsListRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "sector.groups")
-                .AddParameter("sector_id", request.SectorId)
+                .AddQueryParameter("action", "sector.groups")
+                .AddQueryParameter("sector_id", request.SectorId)
                 .AddOptionalParameter("city_id", request.CityId)
             .ProceedAsync<GetSectorGroupsListResponse>(BaseUrl);
 
@@ -216,8 +216,8 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetSectorsListResponse> GetSectorsListAsync(GetSectorsListRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "sector.list")
-                .AddParameter("version_id", request.VersionId)
+                .AddQueryParameter("action", "sector.list")
+                .AddQueryParameter("version_id", request.VersionId)
             .ProceedAsync<GetSectorsListResponse>(BaseUrl);
 
         /// <summary>
@@ -230,8 +230,8 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetSectorMapResponse> GetSectorMapAsync(GetSectorMapRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "sector.map")
-                .AddParameter("sector_id", request.SectorId)
+                .AddQueryParameter("action", "sector.map")
+                .AddQueryParameter("sector_id", request.SectorId)
             .ProceedAsync<GetSectorMapResponse>(BaseUrl);
 
         /// <summary>
@@ -244,9 +244,9 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetAvailableTicketsListResponse> GetAvailableTicketsListAsync(GetAvailableTicketsListRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "ticket.list")
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("event_id", request.EventId)
+                .AddQueryParameter("action", "ticket.list")
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("event_id", request.EventId)
                 .AddOptionalParameter("sector_id", request.SectorId)
                 .AddOptionalParameter("add_groups", request.AddGroups)
             .ProceedAsync<GetAvailableTicketsListResponse>(BaseUrl);
@@ -261,9 +261,9 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetVenueDetailsResponse> GetVenueDetailsAsync(GetVenueDetailsRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "venue.detail")
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("venue_id", request.VenueId)
+                .AddQueryParameter("action", "venue.detail")
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("venue_id", request.VenueId)
             .ProceedAsync<GetVenueDetailsResponse>(BaseUrl);
 
         /// <summary>
@@ -276,8 +276,8 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetVenuesListResponse> GetVenuesListAsync(GetVenuesListRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "venue.list")
-                .AddParameter("city_id", request.CityId)
+                .AddQueryParameter("action", "venue.list")
+                .AddQueryParameter("city_id", request.CityId)
                 .AddOptionalParameter("limit", request.Limit)
                 .AddOptionalParameter("offset", request.Offset)
                 .AddOptionalParameter("updated_after", request.GetDateTimeZone())
@@ -298,10 +298,10 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<BookTicketResponse> BookTicketAsync(BookTicketRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "cart.add")
-                .AddParameter("uid", request.SessionId)
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("id", request.TicketId)
+                .AddQueryParameter("action", "cart.add")
+                .AddQueryParameter("uid", request.SessionId)
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("id", request.TicketId)
             .ProceedAsync<BookTicketResponse>(BaseUrl);
 
         /// <summary>
@@ -314,9 +314,9 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetCartDeliveriesListResponse> GetCartDeliveriesListResponse(GetCartDeliveriesListRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "cart.deliveries")
-                .AddParameter("uid", request.SessionId)
-                .AddParameter("city_id", request.CityId)
+                .AddQueryParameter("action", "cart.deliveries")
+                .AddQueryParameter("uid", request.SessionId)
+                .AddQueryParameter("city_id", request.CityId)
             .ProceedAsync<GetCartDeliveriesListResponse>(BaseUrl);
 
         /// <summary>
@@ -329,9 +329,9 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetBookedTicketsListResponse> GetBookedTicketsListAsync(GetBookedTicketsListRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "cart.detail")
-                .AddParameter("uid", request.SessionId)
-                .AddParameter("city_id", request.CityId)
+                .AddQueryParameter("action", "cart.detail")
+                .AddQueryParameter("uid", request.SessionId)
+                .AddQueryParameter("city_id", request.CityId)
             .ProceedAsync<GetBookedTicketsListResponse>(BaseUrl);
 
         /// <summary>
@@ -344,9 +344,9 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetPaymentMethodsListResponse> GetPaymentMethodsListAsync(GetPaymentMethodsListRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "cart.payments")
-                .AddParameter("uid", request.SessionId)
-                .AddParameter("city_id", request.CityId)
+                .AddQueryParameter("action", "cart.payments")
+                .AddQueryParameter("uid", request.SessionId)
+                .AddQueryParameter("city_id", request.CityId)
             .ProceedAsync<GetPaymentMethodsListResponse>(BaseUrl);
 
         /// <summary>
@@ -359,10 +359,10 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<CancelBookingResponse> CancelBookingAsync(CancelBookingRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "cart.remove")
-                .AddParameter("uid", request.SessionId)
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("id", request.TicketId)
+                .AddQueryParameter("action", "cart.remove")
+                .AddQueryParameter("uid", request.SessionId)
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("id", request.TicketId)
             .ProceedAsync<CancelBookingResponse>(BaseUrl);
 
         /// <summary>
@@ -375,11 +375,11 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<CreateOrderResponse> CreateOrderAsync(CreateOrderRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "order.create")
-                .AddParameter("uid", request.SessionId)
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("name", request.Name)
-                .AddParameter("phone", request.Phone)
+                .AddQueryParameter("action", "order.create")
+                .AddQueryParameter("uid", request.SessionId)
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("name", request.Name)
+                .AddQueryParameter("phone", request.Phone)
                 .AddOptionalParameter("email", request.Email)
                 .AddOptionalParameter("address", request.Address)
                 .AddOptionalParameter("customer_id", request.CustomerId)
@@ -402,10 +402,10 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<CheckPromoResponse> CheckPromoAsync(CheckPromoRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "order.create")
-                .AddParameter("uid", request.SessionId)
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("code", request.Promocode)
+                .AddQueryParameter("action", "order.create")
+                .AddQueryParameter("uid", request.SessionId)
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("code", request.Promocode)
             .ProceedAsync<CheckPromoResponse>(BaseUrl);
 
         #endregion
@@ -422,10 +422,10 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<SetOrderCanceledResponse> SetOrderCanceledAsync(SetOrderCanceledRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "order.cancel")
-                .AddParameter("uid", request.SessionId)
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("id", request.OrderId)
+                .AddQueryParameter("action", "order.cancel")
+                .AddQueryParameter("uid", request.SessionId)
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("id", request.OrderId)
             .ProceedAsync<SetOrderCanceledResponse>(BaseUrl);
 
         /// <summary>
@@ -438,10 +438,10 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<SetOrderDeliveringResponse> SetOrderDeliveringAsync(SetOrderDeliveringRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "order.delivery")
-                .AddParameter("uid", request.SessionId)
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("id", request.OrderId)
+                .AddQueryParameter("action", "order.delivery")
+                .AddQueryParameter("uid", request.SessionId)
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("id", request.OrderId)
             .ProceedAsync<SetOrderDeliveringResponse>(BaseUrl);
 
         /// <summary>
@@ -454,11 +454,11 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<SendOnlineTicketResponse> SendOnlineTicketAsync(SendOnlineTicketRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "order.eticket.send")
-                .AddParameter("uid", request.SessionId)
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("id", request.OrderId)
-                .AddParameter("currency", request.Currency)
+                .AddQueryParameter("action", "order.eticket.send")
+                .AddQueryParameter("uid", request.SessionId)
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("id", request.OrderId)
+                .AddQueryParameter("currency", request.Currency)
             .ProceedAsync<SendOnlineTicketResponse>(BaseUrl);
 
         /// <summary>
@@ -471,10 +471,10 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<GetPaymentHtmlResponse> GetPaymentHtmlAsync(GetPaymentHtmlRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "order.payment")
-                .AddParameter("uid", request.SessionId)
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("id", request.OrderId)
+                .AddQueryParameter("action", "order.payment")
+                .AddQueryParameter("uid", request.SessionId)
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("id", request.OrderId)
             .ProceedAsync<GetPaymentHtmlResponse>(BaseUrl);
 
         /// <summary>
@@ -487,10 +487,10 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<SetOrderSoldResponse> SetOrderSoldAsync(SetOrderSoldRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "order.sold")
-                .AddParameter("uid", request.SessionId)
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("id", request.OrderId)
+                .AddQueryParameter("action", "order.sold")
+                .AddQueryParameter("uid", request.SessionId)
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("id", request.OrderId)
             .ProceedAsync<SetOrderSoldResponse>(BaseUrl);
 
         /// <summary>
@@ -503,10 +503,10 @@ namespace YandexTicketsApiWrapper
         /// </returns>
         public async Task<RemoveTicketResponse> RemoveTicketAsync(RemoveTicketRequest request) => await
             request.GetBaseRequest()
-                .AddParameter("action", "order.cancel")
-                .AddParameter("uid", request.SessionId)
-                .AddParameter("city_id", request.CityId)
-                .AddParameter("id", request.OrderId)
+                .AddQueryParameter("action", "order.cancel")
+                .AddQueryParameter("uid", request.SessionId)
+                .AddQueryParameter("city_id", request.CityId)
+                .AddQueryParameter("id", request.OrderId)
             .ProceedAsync<RemoveTicketResponse>(BaseUrl);
 
         #endregion

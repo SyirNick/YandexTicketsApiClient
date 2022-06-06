@@ -34,7 +34,7 @@
         internal static RestRequest AddOptionalParameter(this RestRequest request, string parameterName, object parameterValue)
         { 
             if(parameterValue != null)
-                request.AddParameter(parameterName, parameterValue.ToString());
+                request.AddQueryParameter(parameterName, parameterValue.ToString(), false);
 
             return request;
         }
@@ -60,7 +60,7 @@
 
         internal static RestRequest GetBaseRequest(this RequestBase request) =>
             new RestRequest(string.Empty, Method.Post)
-                .AddParameter("auth", request.Auth);
+                .AddQueryParameter("auth", request.Auth, false);
 
         internal static string GetLanguage(this CreateOrderRequest request) =>
             request.Language == null || !request.Language.HasValue ? null : request.Language.Value.ToString().ToLower();
