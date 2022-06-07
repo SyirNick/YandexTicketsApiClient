@@ -14,5 +14,11 @@
         /// Идентификатор города.
         /// </summary>
         public int CityId { get; set; }
+
+        /// <summary>
+        /// Создаёт новый сид для запросов работы с заказом билетов и операциями с заказами.
+        /// </summary>
+        public static string CreateSessionId() =>
+            $"{Guid.NewGuid()}{DateTimeOffset.Now:yyyy-mm-ddTHH:mm:ss:fff}".GetSha1();
     }
 }
