@@ -34,7 +34,7 @@ GetSectorGroupsListAsync - возвращает список групп мест
 
 GetSectorsListAsync - возвращает список секторов для версии зала;
 
-GetSectorMapAsync - возвращает схему сектора;
+GetSectorMapsListAsync - возвращает список схем секторов;
 
 GetAvailableTicketsListAsync - возвращает список свободных билетов на событие;
 
