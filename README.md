@@ -74,4 +74,4 @@ RemoveTicketAsync - аннулирует билет в заказе;
 
 # Полезные мелочи
 
-- Вы можете использовать RequestBase.GetAuth(DateTimeOffset sendDateTime, string login, string password) для создания строки auth из вашего логина, пароля и DateTimeOffset отправки запроса;
+- Вы можете использовать RequestBase.GetAuth(DateTimeOffset sendDateTimeOffset, string login, string password) для создания строки auth из вашего логина, пароля и DateTimeOffset отправки запроса;
