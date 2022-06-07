@@ -221,18 +221,18 @@ namespace YandexTicketsApiWrapper
             .ProceedAsync<GetSectorsListResponse>(BaseUrl);
 
         /// <summary>
-        /// Возвращает схему сектора.
+        /// Возвращает список схем секторов.
         /// </summary>
-        /// <param name="request">Объект, содержащий в себе информацию, необходимую для запроса схемы сектора.</param>
+        /// <param name="request">Объект, содержащий в себе информацию, необходимую для запроса списка схем секторов.</param>
         /// <returns>
-        /// При наличии ответа от API Яндекс Билеты, вернёт GetSectorMapResponse, содержащий статус ответа и схему сектора, если запрос выполнен успешно.<br></br>
+        /// При наличии ответа от API Яндекс Билеты, вернёт GetSectorMapResponse, содержащий статус ответа и список схем секторов, если запрос выполнен успешно.<br></br>
         /// При внутренней ошибке клиента выкинет YandexTicketsException.
         /// </returns>
-        public async Task<GetSectorMapResponse> GetSectorMapAsync(GetSectorMapRequest request) => await
+        public async Task<GetSectorMapsListResponse> GetSectorMapAsync(GetSectorMapRequest request) => await
             request.GetBaseRequest()
                 .AddQueryParameter("action", "sector.map")
                 .AddQueryParameter("sector_id", request.SectorId)
-            .ProceedAsync<GetSectorMapResponse>(BaseUrl);
+            .ProceedAsync<GetSectorMapsListResponse>(BaseUrl);
 
         /// <summary>
         /// Возвращает список свободных билетов на событие.

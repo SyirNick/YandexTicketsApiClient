@@ -1,14 +1,14 @@
 ﻿namespace YandexTicketsApiWrapper.Contracts
 {
     /// <summary>
-    /// Результат выполнения запроса получения схемы сектора.
+    /// Результат выполнения запроса получения списка схем секторов.
     /// </summary>
-    public class GetSectorMapResponse : ResponseBase
+    public class GetSectorMapsListResponse : ResponseBase
     {
         /// <summary>
-        /// Схема сектора.
+        /// Список схем секторов.
         /// </summary>
         [JsonProperty(PropertyName = "result")]
-        public SectorMap SectorMap { get; set; }
+        public List<SectorMap> SectorMapsList { get; set; }
     }
 }
