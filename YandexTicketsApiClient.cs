@@ -228,7 +228,7 @@ namespace YandexTicketsApiWrapper
         /// При наличии ответа от API Яндекс Билеты, вернёт GetSectorMapResponse, содержащий статус ответа и список схем секторов, если запрос выполнен успешно.<br></br>
         /// При внутренней ошибке клиента выкинет YandexTicketsException.
         /// </returns>
-        public async Task<GetSectorMapsListResponse> GetSectorMapAsync(GetSectorMapRequest request) => await
+        public async Task<GetSectorMapsListResponse> GetSectorMapsListAsync(GetSectorMapsListRequest request) => await
             request.GetBaseRequest()
                 .AddQueryParameter("action", "sector.map")
                 .AddQueryParameter("sector_id", request.SectorId)
