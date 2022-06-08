@@ -9,6 +9,6 @@
         /// Список схем секторов.
         /// </summary>
         [JsonProperty(PropertyName = "result")]
-        public List<SectorMap> SectorMapsList { get; set; }
+        public List<SectorMap> SectorMaps { get; set; }
     }
 }
